@@ -27,9 +27,11 @@ the escape sequences, just require the namespace `jansi-clj.auto`.
 (require 'jansi-clj.auto)
 ```
 
-That's it. The standard output (as well as Clojure's `*out*` and `*err*` writers) will be wrapped in a
-platform-/terminal-specific way to provide correct handling of ANSI codes. This means that you can make
-any such console output portable without having to touch any existing code.
+That's it. The standard output streams (as well as Clojure's `*out*` and `*err*` writers) will be wrapped
+in a platform-/terminal-specific way to provide correct handling of ANSI codes. This means that you can
+make any such console output portable without having to touch any existing code.
+
+__Note:__ Wrapping the streams currently seems not to work in the REPL.
 
 ## Formatting Terminal Output
 
@@ -53,13 +55,15 @@ For each color, there exist four functions, e.g. `red` (create a string with red
 ;; => nil
 ```
 
+As you can see, the functions behave like `str` regarding the concatenation of the parts.
+
 ### Attributes
 
 ```clojure
 (attributes)
-;; => (:underline-double :no-negative :no-underline :blink-fast :no-strikethrough :conceal
-;;     :negative :no-italic :italic :faint :no-conceal :no-bold :no-blink :strikethrough
-;;     :blink-slow :bold :underline)
+;; => (:underline-double :no-negative :no-underline :blink-fast :no-strikethrough
+;;     :conceal :negative :no-italic :italic :faint :no-conceal :no-bold :no-blink
+;;     :strikethrough :blink-slow :bold :underline)
 ```
 
 For each of these keywords there exists a respective function that provides the desired formatting.
@@ -68,6 +72,30 @@ For each of these keywords there exists a respective function that provides the 
 (println (bold (red "ERROR")))
 ;; ERROR
 ;; => nil
+```
+
+### `render`
+
+Jansi offers a special render syntax that can be used via `jansi-clj.core/render`:
+
+```clojure
+;; syntax: "@|code(,code)* text|@"
+(render "@|green,bold Success!|@ (Code: 0)")
+```
+
+There is `renderf` that accepts a format string as its first parameter:
+
+```clojure
+(renderf "@|green,bold %s|@ (Code: %d)" "Sucess!" 0)
+```
+
+### Others
+
+There is a variety of other functions that can be used. You can generate the respective documentation
+using [codox](https://github.com/weavejester/codox):
+
+```bash
+$ lein doc
 ```
 
 ## Globally enable/disable ANSI Codes
