@@ -246,7 +246,7 @@
   "Restore cursor position."
   []
   (-> (ansi)
-      (.restoreCursorPosition)
+      (.restorCursorPosition)
       (str)))
 
 ;; ## Enable/Disable/Install/Uninstall
