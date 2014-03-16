@@ -4,7 +4,6 @@ __jansi-clj__ is a Clojure wrapper around [jansi](https://github.com/fusesource/
 library that handles ANSI escape sequences (e.g. for terminal colors, cursor movement, ...)
 on a per-OS basis, proclaiming that it _"even works on windows"_.
 
-[![Build Status](https://travis-ci.org/xsc/jansi-clj.png?branch=master)](https://travis-ci.org/xsc/jansi-clj)
 [![endorse](https://api.coderwall.com/xsc/endorsecount.png)](https://coderwall.com/xsc)
 
 This library provides a dead-simple way of enabling ANSI support for all terminal emulators supported by
