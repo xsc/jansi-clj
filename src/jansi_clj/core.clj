@@ -261,20 +261,35 @@
   []
   (Ansi/setEnabled false))
 
+(defn- reset-printer!
+  "Reset printer if stream has changed."
+  [k old-stream new-stream]
+  (when (not= old-stream new-stream)
+    (let [new-printer (java.io.PrintWriter. new-stream)]
+      (or
+        (try
+          (do
+            (if (= k :out)
+              (set! *out* new-printer)
+              (set! *err* new-printer))
+            true)
+          (catch Throwable _))
+        (try
+          (do
+            (alter-var-root
+              (if (= k :out) #'*out* #'*err*)
+              (constantly new-printer))
+            true)
+          (catch Throwable _))))))
+
 (defn- call-and-reset-out!
+  "Call the given function, then reset stdout and stderr."
   [f]
-  (let [old-stdout System/out]
+  (let [old-stdout System/out
+        old-stderr System/err]
     (f)
-    (when (not= old-stdout System/out)
-      (let [new-out (java.io.PrintWriter. System/out)]
-        (or
-          (try
-            (do (set! *out* new-out) true)
-            (catch Throwable _))
-          (try
-            (do (alter-var-root #'*out* (constantly new-out)) true)
-            (catch Throwable _))
-          (do (.close new-out) false))))))
+    (reset-printer! :out old-stdout System/out)
+    (reset-printer! :err old-stderr System/err)))
 
 (defn install!
   "Install JANSI support into your application."
