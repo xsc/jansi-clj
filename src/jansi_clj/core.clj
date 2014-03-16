@@ -140,9 +140,8 @@
               [(keyword k) v]))
        (rename-keys
          {:intensity-bold :bold
-          :no-intensity-bold :no-bold
-          :intensity-faint :faint
-          :no-intensity-faint :no-faint})))
+          :no-intensity_bold :no-bold
+          :intensity-faint :faint})))
 
 (defn attributes
   "Get a seq of available attribute keywords."
