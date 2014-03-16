@@ -261,20 +261,30 @@
   []
   (Ansi/setEnabled false))
 
+(defn- call-and-reset-out!
+  [f]
+  (let [old-stdout System/out]
+    (f)
+    (when (not= old-stdout System/out)
+      (let [new-out (java.io.PrintWriter. System/out)]
+        (or
+          (try
+            (do (set! *out* new-out) true)
+            (catch Throwable _))
+          (try
+            (do (alter-var-root #'*out* (constantly new-out)) true)
+            (catch Throwable _))
+          (do (.close new-out) false))))))
+
 (defn install!
   "Install JANSI support into your application."
   []
-  (AnsiConsole/systemInstall)
-  ;; TODO: Memory Leak?
-  (set! *out* (java.io.PrintWriter. System/out))
-  true)
+  (call-and-reset-out! #(AnsiConsole/systemInstall)))
 
 (defn uninstall!
   "Uninstall JANSI support from your application."
   []
-  (AnsiConsole/systemUninstall)
-  (set! *out* (java.io.PrintWriter. System/out))
-  true)
+  (call-and-reset-out! #(AnsiConsole/systemUninstall)))
 
 ;; ## Initialize
 
