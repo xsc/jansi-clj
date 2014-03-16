@@ -1,5 +1,6 @@
 (ns jansi-clj.core
-  (:require [clojure.string :as s])
+  (:require [clojure.string :as s]
+            [clojure.set :refer [rename-keys]])
   (:import [org.fusesource.jansi AnsiConsole Ansi Ansi$Color Ansi$Attribute]))
 
 ;; ## Helpers
@@ -21,6 +22,11 @@
   (with-meta sym
              {:arglists (list 'quote arglists)
               :doc docstring}))
+
+(defn ansi
+  "Get JANSI object."
+  ^Ansi []
+  (Ansi/ansi))
 
 ;; ## Reset
 
@@ -50,7 +56,7 @@
              (-> ansi
                  (f c)
                  (.a s)))
-           (Ansi/ansi))
+           (ansi))
          (reset)
          (str))
     (apply str data)))
@@ -111,7 +117,7 @@
   "Render the given data based on JANSI-compatible color strings à la `@|color ...|@`."
   [& data]
   (let [^String s (apply str data)]
-    (-> (Ansi/ansi)
+    (-> (ansi)
         (.render s)
         (str))))
 
@@ -124,14 +130,19 @@
 
 (def ^:private __attributes__
   "Map of JANSI attributes."
-  (->> (for [[attr v] (collect-enum Ansi$Attribute)
-             :when (not= attr :reset)
-             :let [^String s (name attr)
-                   k (cond (.endsWith s "_off") (str "no-" (subs s 0 (- (count s) 4)))
-                           (.endsWith s "_on") (subs s 0 (- (count s) 3))
-                           :else (.replace s "_" "-"))]]
-         [(keyword k) v])
-       (into {})))
+  (-> (into {}
+            (for [[attr v] (collect-enum Ansi$Attribute)
+                  :when (not= attr :reset)
+                  :let [^String s (name attr)
+                        k (cond (.endsWith s "_off") (str "no-" (subs s 0 (- (count s) 4)))
+                                (.endsWith s "_on") (subs s 0 (- (count s) 3))
+                                :else (.replace s "_" "-"))]]
+              [(keyword k) v]))
+       (rename-keys
+         {:intensity-bold :bold
+          :no-intensity-bold :no-bold
+          :intensity-faint :faint
+          :no-intensity-faint :no-faint})))
 
 (defn attributes
   "Get a seq of available attribute keywords."
@@ -148,7 +159,7 @@
              (-> ansi
                  (.a attr)
                  (.a s)))
-           (Ansi/ansi))
+           (ansi))
          (reset)
          (str))
     (apply str data)))
@@ -160,6 +171,83 @@
      ~@(for [attr (attributes)]
          (create-jansi-form attr "" `a "Create string with attribute '%s' set." ))
      nil))
+
+;; ## Screen
+
+(defn erase-screen
+  "Create string that can be used to erase the screen."
+  []
+  (-> (ansi)
+      (.eraseScreen)
+      (str)))
+
+(defn erase-screen!
+  "Print screen erase escape sequence."
+  []
+  (print (erase-screen)))
+
+(defn erase-line
+  "Create string that can be used to erase a line."
+  []
+  (-> (ansi)
+      (.eraseLine)
+      (str)))
+
+(defn erase-line!
+  "Print line erase escape sequence."
+  []
+  (print (erase-line)))
+
+;; ## Cursor Movement
+
+(defn cursor
+  "Set cursor position."
+  [^long x ^long y]
+  (-> (ansi)
+      (.cursor x y)
+      (str)))
+
+(defn cursor-down
+  "Move cursor down."
+  [^long y]
+  (-> (ansi)
+      (.cursorDown y)
+      (str)))
+
+(defn cursor-up
+  "Move cursor up."
+  [^long y]
+  (-> (ansi)
+      (.cursorUp y)
+      (str)))
+
+(defn cursor-left
+  "Move cursor left."
+  [^long x]
+  (-> (ansi)
+      (.cursorLeft x)
+      (str)))
+
+(defn cursor-right
+  "Move cursor right."
+  [^long x]
+  (-> (ansi)
+      (.cursorRight x)
+      (str)))
+
+(defn save-cursor
+  "Save cursor position."
+  []
+  (-> (ansi)
+      (.saveCursorPosition)
+      (str)))
+
+(defn restore-cursor
+  "Restore cursor position."
+  []
+  (-> (ansi)
+      (.restoreCursorPosition)
+      (str)))
 
 ;; ## Enable/Disable/Install/Uninstall
 
