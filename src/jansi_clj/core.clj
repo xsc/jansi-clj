@@ -286,10 +286,7 @@
   []
   (call-and-reset-out! #(AnsiConsole/systemUninstall)))
 
-;; ## Initialize
-
-(defonce ^:private __init__
-  (install!))
+;; ## Create Functions
 
 (create-colorize-functions!)
 (create-attribute-functions!)
