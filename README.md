@@ -14,7 +14,8 @@ jansi, as well as functions to produce those ANSI sequences.
 __Leiningen__ ([via Clojars](https://clojars.org/jansi-clj))
 
 ```clojure
-[jansi-clj "0.1.0-SNAPSHOT"] ;; unstable
+[jansi-clj "0.1.0"]          ;; stable
+[jansi-clj "0.1.1-SNAPSHOT"] ;; unstable
 ```
 
 ## Auto-Enable ANSI Codes
