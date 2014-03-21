@@ -30,7 +30,8 @@ That's it. The standard output streams (as well as Clojure's `*out*` and `*err*`
 in a platform-/terminal-specific way to provide correct handling of ANSI codes. This means that you can
 make any such console output portable without having to touch any existing code.
 
-__Note:__ Wrapping the streams currently seems not to work in the REPL.
+__Note:__ Wrapping the streams currently seems not to work correctly in the REPL - as in: jansi does not deem
+the REPL color-worthy and filters out all escape sequences.
 
 ## Formatting Terminal Output
 
