@@ -171,82 +171,74 @@
          (create-jansi-form attr "" `a "Create string with attribute '%s' set." ))
      nil))
 
+;; ## Definition Helper
+
+(defmacro ^:private def-screen-fns
+  "Define functions to manipulate screen/cursor. There'll be a function that
+   just creates the string, and a `!`-suffixed one that prints the escape sequence."
+  [sym docstring params method-call]
+  (let [print-sym (symbol (str (name sym) "!"))]
+    `(do
+       (defn ~sym ~docstring
+         ~params
+         (-> (ansi)
+             ~method-call
+             (str)))
+       (defn ~print-sym ~docstring
+         ~params
+         (-> (ansi)
+             ~method-call
+             (str)
+             (print))))))
+
 ;; ## Screen
 
-(defn erase-screen
-  "Create string that can be used to erase the screen."
+(def-screen-fns erase-screen
+  "Erase the Screen."
   []
-  (-> (ansi)
-      (.eraseScreen)
-      (str)))
+  (.eraseScreen))
 
-(defn erase-screen!
-  "Print screen erase escape sequence."
+(def-screen-fns erase-line
+  "Erase a Line."
   []
-  (print (erase-screen)))
-
-(defn erase-line
-  "Create string that can be used to erase a line."
-  []
-  (-> (ansi)
-      (.eraseLine)
-      (str)))
-
-(defn erase-line!
-  "Print line erase escape sequence."
-  []
-  (print (erase-line)))
+  (.eraseLine))
 
 ;; ## Cursor Movement
 
-(defn cursor
+(def-screen-fns cursor
   "Set cursor position."
   [^long x ^long y]
-  (-> (ansi)
-      (.cursor x y)
-      (str)))
+  (.cursor x y))
 
-(defn cursor-down
+(def-screen-fns cursor-down
   "Move cursor down."
   [^long y]
-  (-> (ansi)
-      (.cursorDown y)
-      (str)))
+  (.cursorDown y))
 
-(defn cursor-up
+(def-screen-fns cursor-up
   "Move cursor up."
   [^long y]
-  (-> (ansi)
-      (.cursorUp y)
-      (str)))
+  (.cursorUp y))
 
-(defn cursor-left
+(def-screen-fns cursor-left
   "Move cursor left."
   [^long x]
-  (-> (ansi)
-      (.cursorLeft x)
-      (str)))
+  (.cursorLeft x))
 
-(defn cursor-right
+(def-screen-fns cursor-right
   "Move cursor right."
   [^long x]
-  (-> (ansi)
-      (.cursorRight x)
-      (str)))
+  (.cursorRight x))
 
-(defn save-cursor
+(def-screen-fns save-cursor
   "Save cursor position."
   []
-  (-> (ansi)
-      (.saveCursorPosition)
-      (str)))
+  (.saveCursorPosition))
 
-(defn restore-cursor
+(def-screen-fns restore-cursor
   "Restore cursor position."
   []
-  (-> (ansi)
-      (.restorCursorPosition)
-      (str)))
+  (.restorCursorPosition))
 
 ;; ## Enable/Disable/Install/Uninstall
 
