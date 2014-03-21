@@ -21,7 +21,7 @@ __Leiningen__ ([via Clojars](https://clojars.org/jansi-clj))
 
 ## Auto-Enable ANSI Codes
 
-If you just need ANSI support for different platforms but don't want to replace the code that actually generates
+If you need ANSI support for different platforms but don't want to replace the code that actually generates
 the escape sequences, just require the namespace `jansi-clj.auto`.
 
 ```clojure
@@ -34,6 +34,8 @@ make any such console output portable without having to touch any existing code.
 
 __Note:__ Wrapping the streams currently seems not to work correctly in the REPL - as in: jansi does not deem
 the REPL color-worthy and filters out all escape sequences.
+
+The choice of which colorization library to use is completely yours. But since you're already here...
 
 ## Formatting Terminal Output
 
