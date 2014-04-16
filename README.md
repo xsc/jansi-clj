@@ -32,8 +32,10 @@ That's it. The standard output streams (as well as Clojure's `*out*` and `*err*`
 in a platform-/terminal-specific way to provide correct handling of ANSI codes. This means that you can
 make any such console output portable without having to touch any existing code.
 
-__Note:__ Wrapping the streams currently seems not to work correctly in the REPL - as in: jansi does not deem
-the REPL color-worthy and filters out all escape sequences.
+__Note:__ Wrapping the streams currently seems not to work correctly when done within a JVM spun up by Leiningen
+since stdout/stderr are then redirected and Jansi cannot detect that there is a color-enabled terminal at their
+ends. __This means that escape sequences will be filtered out when produced within `lein repl` or `lein run`.__
+(`lein trampoline run` and executing an ubjerar should work, though.)
 
 The choice of which colorization library to use is completely yours. But since you're already here...
 
