@@ -231,12 +231,12 @@
   (.cursorRight x))
 
 (def-screen-fns save-cursor
-  "Save cursor position."
+  "Save cursor position. Note: doesn't work on most terminals."
   []
   (.saveCursorPosition))
 
 (def-screen-fns restore-cursor
-  "Restore cursor position."
+  "Restore cursor position. Note: doesn't work on most terminals."
   []
   (.restorCursorPosition))
 
