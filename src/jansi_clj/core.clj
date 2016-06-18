@@ -53,9 +53,7 @@
     (->> (map str data)
          (reduce
            (fn [^Ansi ansi ^String s]
-             (-> ansi
-                 (f c)
-                 (.a s)))
+             (.a ^Ansi (f ansi c) s))
            (ansi))
          (reset)
          (str))
@@ -254,7 +252,7 @@
 
 (defn- reset-printer!
   "Reset printer if stream has changed."
-  [k old-stream new-stream]
+  [k ^java.io.PrintStream old-stream ^java.io.PrintStream new-stream]
   (when (not= old-stream new-stream)
     (let [new-printer (java.io.PrintWriter. new-stream)]
       (or
