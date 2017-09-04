@@ -5,19 +5,10 @@ library that handles ANSI escape sequences (e.g. for terminal colors, cursor mov
 on a per-OS basis, proclaiming that it _"even works on windows"_.
 
 [![Build Status](https://travis-ci.org/xsc/jansi-clj.svg?branch=master)](https://travis-ci.org/xsc/jansi-clj)
-[![endorse](https://api.coderwall.com/xsc/endorsecount.png)](https://coderwall.com/xsc)
+[![Clojars Project](https://img.shields.io/clojars/v/jansi-clj.svg)](https://clojars.org/jansi-clj)
 
 This library provides a dead-simple way of enabling ANSI support for all terminal emulators supported by
 jansi, as well as functions to produce those ANSI sequences.
-
-## Usage
-
-__Leiningen__ ([via Clojars](https://clojars.org/jansi-clj))
-
-```clojure
-[jansi-clj "0.1.0"]          ;; stable
-[jansi-clj "0.1.1-SNAPSHOT"] ;; unstable
-```
 
 ## Auto-Enable ANSI Codes
 
