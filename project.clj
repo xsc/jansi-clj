@@ -1,4 +1,4 @@
-(defproject jansi-clj "1.0.0"
+(defproject jansi-clj "1.0.1-SNAPSHOT"
   :description "Clojure Wrapper around Jansi."
   :url "https://github.com/xsc/jansi-clj"
   :license {:name "MIT"
