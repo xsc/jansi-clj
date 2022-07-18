@@ -205,8 +205,8 @@
 
 (def-screen-fns cursor
   "Set cursor position."
-  [^long x ^long y]
-  (.cursor x y))
+  [^long y ^long x]
+  (.cursor y x))
 
 (def-screen-fns cursor-down
   "Move cursor down."
