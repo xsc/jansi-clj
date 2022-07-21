@@ -205,8 +205,8 @@
 
 (def-screen-fns cursor
   "Set cursor position."
-  [^long y ^long x]
-  (.cursor y x))
+  [^long x ^long y]
+  (.cursor y x))    ; jansi takes row (y) first, column (x) second
 
 (def-screen-fns cursor-down
   "Move cursor down."
