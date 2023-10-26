@@ -89,12 +89,8 @@ There is `renderf` that accepts a format string as its first parameter:
 
 ### Others
 
-There is a variety of other functions that can be used. You can generate the respective documentation
-using [codox](https://github.com/weavejester/codox):
-
-```bash
-$ lein doc
-```
+There is a variety of other functions that can be used. Please refer to the
+[auto-generated documentation](https://cljdoc.org/d/jansi-clj/jansi-clj/CURRENT).
 
 ## Globally enable/disable ANSI Codes
 
