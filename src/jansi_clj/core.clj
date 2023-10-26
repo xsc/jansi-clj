@@ -1,4 +1,6 @@
 (ns jansi-clj.core
+  {:clj-kondo/config
+   '{:lint-as {jansi-clj.core/def-screen-fns clojure.core/defn}}}
   (:require [clojure.string :as s]
             [clojure.set :refer [rename-keys]])
   (:import [org.fusesource.jansi AnsiConsole Ansi Ansi$Color Ansi$Attribute]))
@@ -277,18 +279,16 @@
     (let [new-printer (java.io.PrintWriter. new-stream)]
       (or
         (try
-          (do
-            (if (= k :out)
-              (set! *out* new-printer)
-              (set! *err* new-printer))
-            true)
+          (if (= k :out)
+            (set! *out* new-printer)
+            (set! *err* new-printer))
+          true
           (catch Throwable _))
         (try
-          (do
-            (alter-var-root
-              (if (= k :out) #'*out* #'*err*)
-              (constantly new-printer))
-            true)
+          (alter-var-root
+            (if (= k :out) #'*out* #'*err*)
+            (constantly new-printer))
+          true
           (catch Throwable _))))))
 
 (defn- call-and-reset-out!
