@@ -106,7 +106,7 @@ different escape sequences from showing up in the generated strings in the first
 ```
 MIT License
 
-Copyright (c) 2021 Yannick Scherer
+Copyright (c) 2021-2023 Yannick Scherer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
