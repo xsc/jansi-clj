@@ -19,6 +19,12 @@ jobs:
           check-name: clj-kondo
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: lein check
+
   test:
     runs-on: ubuntu-latest
     steps:
