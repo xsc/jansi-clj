@@ -238,7 +238,7 @@
 (def-screen-fns restore-cursor
   "Restore cursor position. Note: this issues both DEC and SCO escape sequences, for maximum compatibility across terminal emulators."
   []
-  (.restorCursorPosition))
+  (.restoreCursorPosition))
 
 (def-screen-fns save-cursor-dec
   "Save cursor position. Note: DEC escape sequence only."
@@ -248,7 +248,7 @@
 (def-screen-fns restore-cursor-dec
   "Restore cursor position. Note: DEC escape sequence only."
   []
-  (.restorCursorPositionDEC))
+  (.restoreCursorPositionDEC))
 
 (def-screen-fns save-cursor-sco
   "Save cursor position. Note: SCO escape sequence only."
@@ -258,7 +258,7 @@
 (def-screen-fns restore-cursor-sco
   "Restore cursor position. Note: SCO escape sequence only."
   []
-  (.restorCursorPositionSCO))
+  (.restoreCursorPositionSCO))
 
 ;; ## Enable/Disable/Install/Uninstall
 
