@@ -8,4 +8,5 @@
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.11.1" :scope "provided"]
                  [org.fusesource.jansi/jansi "2.4.1"]]
+  :profiles {:dev {:global-vars {*warn-on-reflection* true}}}
   :pedantic? :abort)
