@@ -65,28 +65,28 @@
   "Create string using the given foreground color."
   [color & data]
   (apply-color-fn
-    #(.fg ^Ansi %1 %2)
+    #(.fg ^Ansi %1 ^Ansi$Color %2)
     color data))
 
 (defn fg-bright
   "Create string using the given foreground color."
   [color & data]
   (apply-color-fn
-    #(.fgBright ^Ansi %1 %2)
+    #(.fgBright ^Ansi %1 ^Ansi$Color %2)
     color data))
 
 (defn bg
   "Create string using the given background color."
   [color & data]
   (apply-color-fn
-    #(.bg ^Ansi %1 %2)
+    #(.bg ^Ansi %1 ^Ansi$Color %2)
     color data))
 
 (defn bg-bright
   "Create string using the given background color."
   [color & data]
   (apply-color-fn
-    #(.bgBright ^Ansi %1 %2)
+    #(.bgBright ^Ansi %1 ^Ansi$Color %2)
     color data))
 
 (defn- create-jansi-form
