@@ -59,3 +59,16 @@
       (let [v (resolve (symbol "jansi-clj.core" (name attr)))]
         (is (var? v))
         (is (fn? (var-get v)))))))
+
+(deftest t-cursor-functions
+  (doseq [[save restore] [[jansi/save-cursor jansi/restore-cursor]
+                          [jansi/save-cursor-dec jansi/restore-cursor-dec]
+                          [jansi/save-cursor-sco jansi/restore-cursor-sco]]]
+    (is (save))
+    (is (jansi/cursor-down 5))
+    (is (jansi/cursor-right 5))
+    (is (jansi/erase-line))
+    (is (jansi/cursor-left 1))
+    (is (jansi/cursor-up 1))
+    (is (restore)))
+  (is (jansi/erase-screen)))
